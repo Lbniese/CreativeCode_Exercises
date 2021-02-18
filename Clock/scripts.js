@@ -12,7 +12,7 @@ ctx.translate(radius, radius);
 // reducing size of clock radius to fit it inside the canvas
 radius = radius * 0.90
 // drawClock() is the method containing the calls to draw the clock
-drawClock();
+setInterval(drawClock, 1000);
 
 
 // drawClock() calls the functions that draws each part of the clock
@@ -54,13 +54,16 @@ function drawFace(ctx, radius) {
 
 function drawTime(ctx, radius) {
     console.log("Called: drawTime()");
+    // using Date to get hour, minute and second
     let now = new Date();
     let hour = now.getHours();
     let minute = now.getMinutes();
     let second = now.getSeconds();
+    // calculate angle of hour hand
     //hour
     hour = hour % 12;
     hour = (hour * Math.PI / 6) + (minute * Math.PI / (6 / 60)) + (second * Math.PI / (360 * 60));
+    // draw hand a length (50% of radius) and a width of 7% of radius
     drawHand(ctx, hour, radius * 0.5, radius * 0.07);
     // minute
     minute  = (minute * Math.PI / 30) + (second * Math.PI / (30 * 60));
@@ -70,6 +73,7 @@ function drawTime(ctx, radius) {
     drawHand(ctx, second, radius * 0.9, radius * 0.02);
 }
 
+// draws a line with a given length and width
 function drawHand(ctx, pos, length, width) {
     ctx.beginPath();
     ctx.lineWidth = width;
